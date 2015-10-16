@@ -1,10 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
-namespace GuiSystem.Controls.Structure
+namespace GuiSystem.Structure
 {
     public delegate void TreeVisitor<TNodeData>(
-        TNodeData current, 
+        TNodeData current,
+        TNodeData parent,
+        IEnumerable<TNodeData> siblings);
+
+    public delegate void PredicateRulke<TNodeData>(
+        TNodeData current,
         TNodeData parent,
         IEnumerable<TNodeData> siblings);
 
@@ -29,8 +35,7 @@ namespace GuiSystem.Controls.Structure
         private void RecursiveTraversingHelper(
             INode<TNodeData> node,
             TNodeData parent,
-            IEnumerable<TNodeData>
-            siblings,
+            IEnumerable<TNodeData> siblings,
             TreeVisitor<TNodeData> visitor)
         {
             visitor(node.Data, parent, siblings);

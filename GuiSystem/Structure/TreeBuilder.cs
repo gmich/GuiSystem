@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GuiSystem.Controls.Structure
+namespace GuiSystem.Structure
 {
 
     public class TreeBuilder

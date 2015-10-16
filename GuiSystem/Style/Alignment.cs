@@ -1,9 +1,9 @@
-﻿using GuiSystem.Controls.Structure;
+﻿using GuiSystem.Structure;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GuiSystem.Controls.Style
+namespace GuiSystem.Style
 {
     public interface IAlignment
     {

@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 
-namespace GuiSystem.Controls.Style
+namespace GuiSystem.Style
 {
     public class StylingRule : IStylingRule
     {

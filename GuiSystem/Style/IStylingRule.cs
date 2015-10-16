@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GuiSystem.Controls.Style
+namespace GuiSystem.Style
 {
 
     public interface IStylingRule

@@ -1,4 +1,4 @@
-﻿using GuiSystem.Controls.Rendering;
+﻿using GuiSystem.Rendering;
 using System;
 
 namespace GuiSystem.GTerminal.View

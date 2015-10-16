@@ -1,7 +1,7 @@
 ﻿using GuiSystem.Containers;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GuiSystem.Controls.Rendering
+namespace GuiSystem.Rendering
 {
     public class RenderContext
     {

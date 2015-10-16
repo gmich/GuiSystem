@@ -1,10 +1,10 @@
-﻿using GuiSystem.Controls.Rendering;
-using GuiSystem.Controls.Structure;
+﻿using GuiSystem.Rendering;
+using GuiSystem.Structure;
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
-namespace GuiSystem.Controls.Style
+namespace GuiSystem.Style
 {
     public class Style
     {

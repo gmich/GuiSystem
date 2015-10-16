@@ -1,4 +1,4 @@
-﻿namespace GuiSystem.Controls.Structure
+﻿namespace GuiSystem.Structure
 {
     public interface IGuiElement
     {
