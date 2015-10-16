@@ -85,7 +85,8 @@ namespace GuiSystem.Structure
                 throw new Exception(errorMessage);
             }
             ActiveNode = newActiveNode;
-        }
 
+            new TreeBuilder(null).Add(null).Previous
+        }
     }
 }

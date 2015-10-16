@@ -44,6 +44,9 @@ namespace GuiSystem.Structure
             {
                 RecursiveTraversingHelper(childNode, node.Data, childSiblings, visitor);
             }
+            ElementSelector
+            .For(element => element is string)
+            .TakeOnly(element => element.Child);
         }
 
     }
