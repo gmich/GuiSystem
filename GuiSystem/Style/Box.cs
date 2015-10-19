@@ -12,9 +12,7 @@ namespace GuiSystem.GTerminal.View
                     outer.Right + Right,
                     outer.Top - Top,
                     outer.Bottom + Bottom);
-
-
-
+        
         public int Top { get; set; }
 
         public int Bottom { get; set; }
@@ -23,7 +21,6 @@ namespace GuiSystem.GTerminal.View
 
         public int Right { get; set; }
 
-        public Color Color { get; set; } = Color.White;
-
+        public Color Color { get; set; } = Color.Transparent;
     }
 }

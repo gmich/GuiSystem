@@ -18,14 +18,11 @@ namespace GuiSystem.GTerminal.View
             this.renderAction = renderAction;
         }
 
-        public static BorderStyle Solid
+        public static BorderStyle None
         {
             get
             {
-                return new BorderStyle((context, batch) =>
-                {
-
-                });
+                return new BorderStyle((context, batch) => { });
             }
         }
         public void Render(RenderContext context, BorderBox border)

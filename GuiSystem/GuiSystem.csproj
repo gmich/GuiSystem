@@ -53,20 +53,23 @@
     <Compile Include="Input\TouchInput.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rendering\Alignment.cs" />
     <Compile Include="Rendering\IRenderer.cs" />
     <Compile Include="Rendering\RenderContext.cs" />
     <Compile Include="Structure\ElementSelector.cs" />
     <Compile Include="Structure\IGuiElement.cs" />
+    <Compile Include="Structure\ISelectorPriority.cs" />
     <Compile Include="Structure\Selector.cs" />
+    <Compile Include="Structure\SelectorPriority.cs" />
     <Compile Include="Structure\Tree.cs" />
     <Compile Include="Structure\TreeBuilder.cs" />
-    <Compile Include="Structure\TreeTraverser.cs" />
-    <Compile Include="Style\Alignment.cs" />
+    <Compile Include="Rendering\TreeRenderTraverser.cs" />
+    <Compile Include="Style\ApplianceRule.cs" />
     <Compile Include="Style\BorderBox.cs" />
     <Compile Include="Style\BorderStyle.cs" />
     <Compile Include="Style\Box.cs" />
+    <Compile Include="Style\ElementStyle.cs" />
     <Compile Include="Style\IStylingRule.cs" />
-    <Compile Include="Style\StyleFactory.cs" />
     <Compile Include="Style\StylingRule.cs" />
   </ItemGroup>
   <ItemGroup>

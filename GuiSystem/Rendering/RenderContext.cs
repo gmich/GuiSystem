@@ -1,4 +1,5 @@
 ﻿using GuiSystem.Containers;
+using GuiSystem.Style;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GuiSystem.Rendering
@@ -12,6 +13,8 @@ namespace GuiSystem.Rendering
         }
         public ContentContainer Content { get; }
         public SpriteBatch Batch { get; }
+
+        public AlignmentContext AlignmentContext { get; set }
     }
 
 }

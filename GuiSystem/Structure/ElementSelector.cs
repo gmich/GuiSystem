@@ -7,28 +7,35 @@ namespace GuiSystem.Structure
     public class ElementSelector
     {
         private readonly Predicate<IGuiElement> predicate;
-        public Func<ITree<IGuiElement>, IEnumerable<IGuiElement>> Select { get; private set; }
+        public Func<ITree<IGuiElement>, IEnumerable<IGuiElement>> GetSelection { get; private set; }
+        public ISelectorPriority Priority { get; }
 
-        private ElementSelector(Predicate<IGuiElement> predicate)
+        private ElementSelector(Predicate<IGuiElement> predicate, ISelectorPriority priority)
         {
+            Priority = priority;
             this.predicate = predicate;
         }
 
-        private ElementSelector(Func<ITree<IGuiElement>, IEnumerable<IGuiElement>> Select)
+        public static ElementSelector By(Predicate<IGuiElement> predicate)
         {
-            this.Select = Select;
+            return new ElementSelector(predicate, SelectorPriority.Default);
         }
 
-        public static ElementSelector For(Predicate<IGuiElement> predicate)
+        public static ElementSelector ByID(Predicate<string> predicate)
         {
-            return new ElementSelector(predicate);
+            return new ElementSelector(element => predicate(element.Id), SelectorPriority.Default);
+        }
+
+        public static ElementSelector ByGroup(Predicate<string> predicate)
+        {
+            return new ElementSelector(element=> predicate(element.Group),SelectorPriority.Default);
         }
 
         public ElementSelector All
         {
             get
             {
-                Select = tree => tree.Nodes
+                GetSelection = tree => tree.Nodes
                                      .Where(node => predicate(node.Data))
                                      .Select(node => node.Data);
                 return this;
@@ -37,7 +44,7 @@ namespace GuiSystem.Structure
 
         public ElementSelector TakeMany(Func<INode<IGuiElement>, IEnumerable<INode<IGuiElement>>> selector)
         {
-            Select = tree =>
+            GetSelection = tree =>
             {
                 var nodes = tree.Nodes.Where(node => predicate(node.Data));
                 var elements = new List<IGuiElement>();
@@ -51,7 +58,7 @@ namespace GuiSystem.Structure
 
         public ElementSelector TakeOnly(Func<INode<IGuiElement>, INode<IGuiElement>> selector)
         {
-            Select = tree =>
+            GetSelection = tree =>
             {
                 var nodes = tree.Nodes.Where(node => predicate(node.Data));
                 var elements = new List<IGuiElement>();
@@ -65,7 +72,7 @@ namespace GuiSystem.Structure
 
         public ElementSelector CreateSelection(params ISelector[] selectors)
         {
-            Select = tree =>
+            GetSelection = tree =>
             {
                 var nodes = tree.Nodes.Where(node => predicate(node.Data));
                 var elements = new List<IGuiElement>();

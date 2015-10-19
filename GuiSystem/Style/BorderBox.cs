@@ -23,8 +23,6 @@ namespace GuiSystem.GTerminal.View
                 Right = thickness
             };
         }
-
-        public IBorderStyle Style { get; set; } = BorderStyle.Solid;
-
+        public IBorderStyle Style { get; set; } = BorderStyle.None;
     }
 }
