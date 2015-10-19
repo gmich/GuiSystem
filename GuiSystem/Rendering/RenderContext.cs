@@ -14,7 +14,7 @@ namespace GuiSystem.Rendering
         public ContentContainer Content { get; }
         public SpriteBatch Batch { get; }
 
-        public AlignmentContext AlignmentContext { get; set }
+        public AlignmentContext AlignmentContext { get; set; }
     }
 
 }

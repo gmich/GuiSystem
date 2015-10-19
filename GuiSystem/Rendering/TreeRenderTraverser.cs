@@ -68,7 +68,7 @@ namespace GuiSystem.Structure
                 yAxis: new AlignmentContext.Entry(
                  parentStyle.Height.Value,
                  (parentStyle.Height.Value - totalElements)
-                    / childSiblings.Count(element => styleGetter(element).Height == null));
+                    / childSiblings.Count(element => styleGetter(element).Height == null)));
 
         }
 
