@@ -1,20 +1,26 @@
 ﻿using GuiSystem.Containers;
-using GuiSystem.Style;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GuiSystem.Rendering
 {
     public class RenderContext
     {
-        public RenderContext(ContentContainer content, SpriteBatch batch)
+        public RenderContext(ContentContainer content, SpriteBatch batch, Rectangle bounds, Rectangle safeArea)
         {
             Content = content;
             Batch = batch;
+            Bounds = bounds;
+            SafeArea = safeArea;
         }
+
         public ContentContainer Content { get; }
+
         public SpriteBatch Batch { get; }
 
-        public AlignmentContext AlignmentContext { get; set; }
+        public Rectangle Bounds { get;  }
+
+        public Rectangle SafeArea { get; }
     }
 
 }

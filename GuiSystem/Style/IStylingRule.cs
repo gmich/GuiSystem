@@ -17,6 +17,6 @@ namespace GuiSystem.Style
         Box Padding { get;  }
         BorderBox Border { get;  }
         Box Margin { get;  }
-        IAlignment Position { get;  }
+        IAlignment Alignment { get;  }
     }
 }

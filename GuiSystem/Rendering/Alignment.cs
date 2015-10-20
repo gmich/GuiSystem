@@ -1,63 +1,50 @@
 ﻿using GuiSystem.Structure;
+using GuiSystem.Style;
 using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace GuiSystem.Rendering
 {
 
-    public class AlignmentContext
-    {
-        public AlignmentContext(Entry xAxis, Entry yAxis)
-        {
-            XAxis = xAxis;
-            YAxis = yAxis;
-        }
-
-        public struct Entry
-        {
-            public Entry(int size, int pixelsPerEntry )
-            {
-                SpaceAvailable = size;
-                Size = size;
-                PixelsPerEntry = pixelsPerEntry;
-                ItemsIterated = 0;
-            }
-
-            public int SpaceAvailable { get; set; }
-            public int PixelsPerEntry { get; set; }
-            public int Size { get; set; }
-            public int ItemsIterated { get; set; }
-        }
-
-        public Entry XAxis { get; }
-        public Entry YAxis { get; }
-    }
-
-
     public interface IAlignment
     {
-        Rectangle CalculateSafeArea(IGuiElement view, Rectangle parentBoundaries, List<Rectangle> siblingBoundaries);
+        Rectangle CalculateSafeArea(Rectangle parentBoundaries, IStylingRule style, AlignmentContext context);
     }
 
-    public class LeftAlignment : IAlignment
+    public class AutoAlignment : IAlignment
     {
-        public Rectangle CalculateSafeArea(IGuiElement view, Rectangle parentBoundaries, List<Rectangle> siblingBoundaries)
+        public Rectangle CalculateSafeArea(Rectangle parentBoundaries,IStylingRule style, AlignmentContext context)
         {
-           // var area = view.Margin.Bounds;
+            var width = style.Width ?? parentBoundaries.Width;
+            var height = style.Height ?? parentBoundaries.Height;
+            var safeArea =  new Rectangle(
+               parentBoundaries.X + (parentBoundaries.Width - context.XAxis.SpaceAvailable)
+               , parentBoundaries.Y + (parentBoundaries.Height - context.YAxis.SpaceAvailable)
+               , width
+               , height);
+            Alignment.UpdateContext(context, width, height);
 
-            var startingPoint = new Point(parentBoundaries.Left, parentBoundaries.Top);
-
-            siblingBoundaries.Where(rect => rect.Contains(startingPoint));
-            return Rectangle.Empty;
+            return safeArea;
         }
     }
 
     public sealed class Alignment
     {
+
+        internal static void UpdateContext(AlignmentContext context,int width, int height)
+        {
+            context.XAxis.ItemsIterated++;
+            context.YAxis.ItemsIterated++;
+            context.XAxis.SpaceAvailable += width;
+            context.YAxis.SpaceAvailable += height;
+        }
+
+        private static Lazy<AutoAlignment> autoAlignment = new Lazy<AutoAlignment>();
         public static IAlignment Auto
         {
-            get { return null; }
+            get { return autoAlignment.Value; }
         }
     }
 }

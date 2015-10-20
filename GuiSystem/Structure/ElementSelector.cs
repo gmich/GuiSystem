@@ -8,9 +8,9 @@ namespace GuiSystem.Structure
     {
         private readonly Predicate<IGuiElement> predicate;
         public Func<ITree<IGuiElement>, IEnumerable<IGuiElement>> GetSelection { get; private set; }
-        public ISelectorPriority Priority { get; }
+        public IPriority Priority { get; }
 
-        private ElementSelector(Predicate<IGuiElement> predicate, ISelectorPriority priority)
+        private ElementSelector(Predicate<IGuiElement> predicate, IPriority priority)
         {
             Priority = priority;
             this.predicate = predicate;

@@ -10,8 +10,5 @@ namespace GuiSystem.Rendering
 {
     public interface IRenderer
     {
-        void Update(double timeDelta);
-        void Render(IGuiElement view, Rectangle parentBoundaries, RenderContext context);
-        void Render(Rectangle parentBoundaries, List<Rectangle> siblingBoundaries, RenderContext context);
     }
 }

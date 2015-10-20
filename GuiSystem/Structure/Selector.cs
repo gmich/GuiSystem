@@ -6,13 +6,13 @@ namespace GuiSystem.Structure
 
     public interface ISelector
     {
-        ISelectorPriority Priority { get; }
+        IPriority Priority { get; }
     }
 
     public class GetMany : ISelector
     {
         public Func<INode<IGuiElement>, IEnumerable<INode<IGuiElement>>> PerformSelection { get; }
-        public ISelectorPriority Priority { get; } = SelectorPriority.Default;
+        public IPriority Priority { get; } = SelectorPriority.Default;
         private GetMany(Func<INode<IGuiElement>, IEnumerable<INode<IGuiElement>>> collectionSelector)
         {
             PerformSelection = collectionSelector;
@@ -28,7 +28,7 @@ namespace GuiSystem.Structure
     {
         public Func<INode<IGuiElement>, INode<IGuiElement>> PerformSelection { get; }
 
-        public ISelectorPriority Priority { get; } = SelectorPriority.Default;
+        public IPriority Priority { get; } = SelectorPriority.Default;
 
         private GetEach(Func<INode<IGuiElement>, INode<IGuiElement>> individualSelector)
         {
