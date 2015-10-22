@@ -29,23 +29,32 @@ namespace GuiSystem.Style
             this.guiTree = guiTree;
         }
 
-
         private void ResolveSelector(ElementSelector selector, IStylingRule rule)
         {
             var selectedElements = selector.GetSelection(guiTree);
 
             foreach (var element in selectedElements)
             {
-                if (styledElements.ContainsKey(element))
-                {
-                    if (selector.Priority.Amount > styledElements[element].Priority.Amount)
-                    {
-                        styledElements.Remove(element);
-                    }
-                    else continue;
-                }
-                styledElements.Add(element, new StyleEntry(selector.Priority, rule));
+                AddElement(element, rule, selector.Priority);
             }
+        }
+
+        private void AddElement(IGuiElement element, IStylingRule rule, IPriority priority)
+        {
+            if (styledElements.ContainsKey(element))
+            {
+                if (priority.Amount > styledElements[element].Priority.Amount)
+                {
+                    styledElements[element].Style.Override(rule);
+                }
+                else
+                {
+                    styledElements[element].Style.Merge(rule);
+                }
+                return;
+            }
+            styledElements.Add(element, new StyleEntry(priority, rule));
+
         }
 
         public IStylingRule GetStyleByElement(IGuiElement element)
@@ -55,6 +64,30 @@ namespace GuiSystem.Style
                 return styledElements[element].Style;
             }
             return defaultRule;
+        }
+
+        public void Attach(IGuiElement element, IStylingRule ruleSet)
+        {
+            AddElement(element, ruleSet, SelectorPriority.Default);
+        }
+
+        public void Attach(IGuiElement element, Action<StylingRule> ruleSet)
+        {
+            var style = new StylingRule();
+            AddElement(element, style, SelectorPriority.Default);
+            ruleSet(style);
+        }
+
+        public void Attach(IGuiElement element, Action<StylingRule, double> ruleSet, AnimationSpan span)
+        {
+            var style = new StylingRule();
+            AddElement(element, style, SelectorPriority.Default);
+            stylingrules.Add((time) =>
+            {
+                ruleSet(style, time);
+                span.Update(time);
+            });
+            span.OnAnimationEnd += (sender, args) => stylingrules.RemoveAt(stylingrules.Count - 1);
         }
 
         public void Attach(ElementSelector selector, IStylingRule ruleSet)

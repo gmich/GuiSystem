@@ -1,6 +1,7 @@
 ﻿using GuiSystem.Rendering;
 using GuiSystem.Structure;
 using GuiSystem.Style;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,8 @@ namespace GuiSystem.Elements
         public string Group { get; set; } = "Dummy";
 
         public string Id { get; set; } = "Dummy";
+
+        public Rectangle RenderRectangle { get; set; }
 
         public void HandleInput(Input.InputManager input) { }
 

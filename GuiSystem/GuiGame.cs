@@ -16,13 +16,17 @@ namespace GuiSystem
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            gui = new GuiService(builder => builder.Add(new DummyElement()));
+
+            gui = new GuiService(GraphicsDevice,
+                Content,
+                ()=>GraphicsDevice.Viewport.Bounds,
+                builder => builder.Add(new DummyElement()));
+
             gui.Style.Attach(
                 ElementSelector.ByID(id =>  id == "Dummy"),
                 (rule, time) =>
                 rule.BackgroundColorProvider = () => Color.White * (float)time,
-                AnimationSpan.Seconds(1.0));
-
+                AnimationSpan.Seconds(1.0));            
         }
 
         protected override void Initialize()

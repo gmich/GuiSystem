@@ -2,7 +2,7 @@
 
 namespace GuiSystem.Toolbox
 {
-    public static class Operationxtensions
+    public static class OperationExtensions
     {
         public static Operation OnSuccess(this Operation result, Func<Operation> func)
         {
@@ -27,7 +27,7 @@ namespace GuiSystem.Toolbox
             if (result.Failure)
                 return result;
 
-            action(result.Value);
+            action(result.Result);
 
             return Operation.Succeeded();
         }
@@ -53,7 +53,7 @@ namespace GuiSystem.Toolbox
             if (result.Failure)
                 return result;
 
-            return func(result.Value);
+            return func(result.Result);
         }
 
         public static Operation OnFailure(this Operation result, Action action)

@@ -1,18 +1,25 @@
 ﻿using GuiSystem.Rendering;
 using GuiSystem.Structure;
 using GuiSystem.Style;
+using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace GuiSystem.Elements
 {
     public class WindowElement : IGuiElement
     {
+        private readonly Func<Rectangle> viewPort;
+
+        public WindowElement(Func<Rectangle> viewPort)
+        {
+            this.viewPort = viewPort;
+        }
+
         public string Group { get; set; } = "Window";
 
         public string Id { get; set; } = "Window";
+
+        public Rectangle RenderRectangle { get { return viewPort(); } set{} }
 
         public void HandleInput(Input.InputManager input) { }
 

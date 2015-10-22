@@ -36,13 +36,11 @@ namespace GuiSystem.Toolbox
         {
             return new Operation<T>(default(T), false, message);
         }
-
-
+        
         public static Operation Succeeded()
         {
             return new Operation(true, String.Empty);
         }
-
 
         public static Operation<T> Succeeded<T>(T value)
         {
@@ -65,7 +63,7 @@ namespace GuiSystem.Toolbox
     {
         private T _value;
 
-        public T Value
+        public T Result
         {
             get
             {
@@ -81,7 +79,7 @@ namespace GuiSystem.Toolbox
         {
             Contract.Requires(value != null || !success);
 
-            Value = value;
+            Result = value;
         }
     }
 }
