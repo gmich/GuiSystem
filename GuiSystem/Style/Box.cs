@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace GuiSystem.GTerminal.View
+namespace GuiSystem.View
 {
     public class Box
     {

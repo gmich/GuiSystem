@@ -1,7 +1,7 @@
 ﻿using GuiSystem.Rendering;
 using System;
 
-namespace GuiSystem.GTerminal.View
+namespace GuiSystem.View
 {
 
     public interface IBorderStyle
@@ -25,6 +25,7 @@ namespace GuiSystem.GTerminal.View
                 return new BorderStyle((context, batch) => { });
             }
         }
+
         public void Render(RenderContext context, BorderBox border)
         {
             renderAction(context, border);

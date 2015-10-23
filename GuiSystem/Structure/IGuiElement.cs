@@ -9,7 +9,7 @@ namespace GuiSystem.Structure
         string Id { get; set; }
         string Group { get; set; }
 
-        Rectangle RenderRectangle { get; set; }
+        Rectangle OccupiedScreenRectangle { get; set; }
 
         void HandleInput(Input.InputManager input);
 

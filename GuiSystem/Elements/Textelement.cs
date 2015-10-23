@@ -19,7 +19,7 @@ namespace GuiSystem.Elements
 
         public string Id { get; set; } = "Dummy";
 
-        public Rectangle RenderRectangle { get; set; }
+        public Rectangle OccupiedScreenRectangle { get; set; }
 
         public void HandleInput(Input.InputManager input) { }
 

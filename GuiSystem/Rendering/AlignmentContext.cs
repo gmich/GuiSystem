@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GuiSystem.Structure;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +8,7 @@ namespace GuiSystem.Rendering
 {
     public class AlignmentContext
     {
+        public int ItemsIterated { get; set; }
         public AlignmentContext(Entry xAxis, Entry yAxis)
         {
             XAxis = xAxis;
@@ -20,13 +22,18 @@ namespace GuiSystem.Rendering
                 SpaceAvailable = size;
                 Size = size;
                 PixelsPerEntry = pixelsPerEntry;
-                ItemsIterated = 0;
             }
 
             public int SpaceAvailable { get; set; }
             public int PixelsPerEntry { get; set; }
             public int Size { get; set; }
-            public int ItemsIterated { get; set; }
+        }
+
+        public void Update(IGuiElement element)
+        {
+            ItemsIterated++;
+            XAxis.SpaceAvailable -= element.OccupiedScreenRectangle.Width;
+            YAxis.SpaceAvailable -= element.OccupiedScreenRectangle.Height;
         }
 
         public Entry XAxis { get; }

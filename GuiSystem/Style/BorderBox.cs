@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 
-namespace GuiSystem.GTerminal.View
+namespace GuiSystem.View
 {
     public class BorderBox : Box
     {
@@ -24,5 +24,10 @@ namespace GuiSystem.GTerminal.View
             };
         }
         public IBorderStyle Style { get; set; } = BorderStyle.None;
+
+        public void Render(Rendering.RenderContext context)
+        {
+            Style.Render(context, this);
+        }
     }
 }

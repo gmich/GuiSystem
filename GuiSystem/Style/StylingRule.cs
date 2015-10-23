@@ -1,4 +1,4 @@
-﻿using GuiSystem.GTerminal.View;
+﻿using GuiSystem.View;
 using GuiSystem.Rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -21,6 +21,7 @@ namespace GuiSystem.Style
         public Func<BorderBox> BorderProvider { get; set; } = () => BorderBox.Thin;
         public Func<Box> MarginProvider { get; set; } = () => Box.Empty;
         public Func<IAlignment> AlignmentProvider { get; set; } = () => Rendering.Alignment.Auto;
+        public Func<float> RotationProvider { get; set; } = () => 0.0f;
 
         public int? X { get { return XProvider(); } }
         public int? Y { get { return YProvider(); } }
@@ -35,10 +36,17 @@ namespace GuiSystem.Style
         public BorderBox Border { get { return BorderProvider(); } }
         public Box Margin { get { return MarginProvider(); } }
         public IAlignment Alignment { get { return AlignmentProvider(); } }
+        public float Rotation { get { return RotationProvider(); } }
+        public RenderingMethod RenderMethod { get; set; } = RenderingMethod.AsBox;
 
         public void Merge(IStylingRule other)
         {
             JoinHelper(this, other as StylingRule);
+        }
+
+        public void Override(IStylingRule other)
+        {
+            JoinHelper(other as StylingRule, this);
         }
 
         private void JoinHelper(StylingRule dominantRule, StylingRule rule)
@@ -62,9 +70,5 @@ namespace GuiSystem.Style
             AlignmentProvider = dominantRule.AlignmentProvider ?? rule.AlignmentProvider;
         }
 
-        public void Override(IStylingRule other)
-        {
-            JoinHelper(other as StylingRule, this);
-        }
     }
 }

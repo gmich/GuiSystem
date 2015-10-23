@@ -14,6 +14,9 @@ namespace GuiSystem.Structure
         {
             Priority = priority;
             this.predicate = predicate;
+            GetSelection = tree => tree.Nodes
+                                 .Where(node => predicate(node.Data))
+                                 .Select(node => node.Data);
         }
 
         public static ElementSelector By(Predicate<IGuiElement> predicate)
@@ -29,17 +32,6 @@ namespace GuiSystem.Structure
         public static ElementSelector ByGroup(Predicate<string> predicate)
         {
             return new ElementSelector(element=> predicate(element.Group),SelectorPriority.Default);
-        }
-
-        public ElementSelector All
-        {
-            get
-            {
-                GetSelection = tree => tree.Nodes
-                                     .Where(node => predicate(node.Data))
-                                     .Select(node => node.Data);
-                return this;
-            }
         }
 
         public ElementSelector TakeMany(Func<INode<IGuiElement>, IEnumerable<INode<IGuiElement>>> selector)

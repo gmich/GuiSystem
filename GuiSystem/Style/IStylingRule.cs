@@ -1,4 +1,4 @@
-﻿using GuiSystem.GTerminal.View;
+﻿using GuiSystem.View;
 using GuiSystem.Rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,7 +13,6 @@ namespace GuiSystem.Style
         int? Y { get; }
         int? Width { get;  }
         int? Height { get;  }
-        Vector2 Scale { get; }
         float Rotation { get; }
         Texture2D BackgroundImage { get;  }
         Color Color { get;  }
@@ -21,8 +20,8 @@ namespace GuiSystem.Style
         BorderBox Border { get;  }
         Box Margin { get;  }
         IAlignment Alignment { get;  }
-
         RenderingMethod RenderMethod { get; set; }
+
         void Merge(IStylingRule other);
         void Override(IStylingRule other);
 

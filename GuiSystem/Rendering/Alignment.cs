@@ -1,9 +1,6 @@
-﻿using GuiSystem.Structure;
-using GuiSystem.Style;
+﻿using GuiSystem.Style;
 using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace GuiSystem.Rendering
 {
@@ -24,22 +21,12 @@ namespace GuiSystem.Rendering
                , parentBoundaries.Y + (parentBoundaries.Height - context.YAxis.SpaceAvailable)
                , width
                , height);
-            Alignment.UpdateContext(context, width, height);
-
             return safeArea;
         }
     }
 
     public sealed class Alignment
     {
-
-        internal static void UpdateContext(AlignmentContext context,int width, int height)
-        {
-            context.XAxis.ItemsIterated++;
-            context.YAxis.ItemsIterated++;
-            context.XAxis.SpaceAvailable += width;
-            context.YAxis.SpaceAvailable += height;
-        }
 
         private static Lazy<AutoAlignment> autoAlignment = new Lazy<AutoAlignment>();
         public static IAlignment Auto

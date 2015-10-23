@@ -12,12 +12,13 @@ namespace GuiSystem
         private readonly GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
         private readonly GuiService gui;
+
         public GuiGame()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            gui = new GuiService(GraphicsDevice,
+            gui = new GuiService(graphics,
                 Content,
                 ()=>GraphicsDevice.Viewport.Bounds,
                 builder => builder.Add(new DummyElement()));
@@ -39,17 +40,20 @@ namespace GuiSystem
             spriteBatch = new SpriteBatch(GraphicsDevice);
         }
 
-
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
+            gui.Update(gameTime.ElapsedGameTime.TotalSeconds);
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            gui.Render();
             base.Draw(gameTime);
         }
     }

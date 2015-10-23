@@ -69,7 +69,6 @@
     <Compile Include="Structure\SelectorPriority.cs" />
     <Compile Include="Structure\Tree.cs" />
     <Compile Include="Structure\TreeBuilder.cs" />
-    <Compile Include="Structure\TreeTraverser.cs" />
     <Compile Include="Style\AnimationSpan.cs" />
     <Compile Include="Style\ApplianceRule.cs" />
     <Compile Include="Style\BorderBox.cs" />
@@ -77,6 +76,7 @@
     <Compile Include="Style\Box.cs" />
     <Compile Include="Style\ElementStyle.cs" />
     <Compile Include="Style\IStylingRule.cs" />
+    <Compile Include="Style\StylingExtensions.cs" />
     <Compile Include="Style\StylingRule.cs" />
     <Compile Include="Toolbox\Operation.cs" />
     <Compile Include="Toolbox\OperationExtensions.cs" />

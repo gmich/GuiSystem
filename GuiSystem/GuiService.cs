@@ -11,32 +11,57 @@ using System;
 
 namespace GuiSystem
 {
+    public delegate void TreeVisitor(
+      INode<IGuiElement> current,
+      INode<IGuiElement> parent);
+
     public class GuiService
     {
         private readonly ITree<IGuiElement> guiTree;
         private readonly InputManager inputManager;
-        private readonly Renderer renderer;
-        private readonly TreeTraverser traverser;
-
+        private Renderer renderer;
         public StyleService Style { get; }
 
-        public GuiService(GraphicsDevice gfxDevice,
+        public GuiService(GraphicsDeviceManager gfxManager,
                           ContentManager content,
                           Func<Rectangle> viewportBounds,
                           Action<TreeBuilder> buildingAction)
         {
             var treeBuilder = TreeBuilder.Root(new WindowElement(viewportBounds));
-            var spriteBatch = new SpriteBatch(gfxDevice);
             buildingAction(treeBuilder);
             guiTree = treeBuilder.Tree;
             inputManager = new InputManager();
             Style = new StyleService(guiTree);
-            renderer = new Renderer(
-                spriteBatch,
-                new ContentContainer(content),
-                Style.GetStyleByElement);
+
+            gfxManager.DeviceCreated += (sender, args) =>
+            {
+               var spriteBatch = new SpriteBatch(gfxManager.GraphicsDevice);
+               renderer = new Renderer(
+                    spriteBatch,
+                    new ContentContainer(content),
+                    Style.GetStyleByElement);
+            };
         }
 
+        public void Traverse(TreeVisitor visitor)
+        {
+            RecursiveTraversingHelper(
+                guiTree.Root,
+                guiTree.Root,
+                visitor);
+        }
+
+        private void RecursiveTraversingHelper(
+            INode<IGuiElement> node,
+            INode<IGuiElement> parent,
+            TreeVisitor visitor)
+        {
+            visitor(node, parent);
+            foreach (var childNode in node.DirectChildren.Nodes)
+            {
+                RecursiveTraversingHelper(childNode, node, visitor);
+            }
+        }
 
         public void Update(double timeDelta)
         {
@@ -47,7 +72,7 @@ namespace GuiSystem
         public void Render()
         {
             renderer.Prepare(() =>
-                traverser.Traverse(renderer.RenderElement));
+                Traverse(renderer.RenderElement));
         }
     }
 }

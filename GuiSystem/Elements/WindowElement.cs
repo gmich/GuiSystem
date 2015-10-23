@@ -19,7 +19,7 @@ namespace GuiSystem.Elements
 
         public string Id { get; set; } = "Window";
 
-        public Rectangle RenderRectangle { get { return viewPort(); } set{} }
+        public Rectangle OccupiedScreenRectangle { get { return viewPort(); } set{} }
 
         public void HandleInput(Input.InputManager input) { }
 

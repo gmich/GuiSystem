@@ -14,18 +14,22 @@ namespace GuiSystem.Rendering
         private readonly ContentContainer content;
         private readonly Func<IGuiElement, IStylingRule> styleProvider;
         private readonly RasterizerState rasterizer = new RasterizerState() { ScissorTestEnable = true };
+        private IGuiElement previousParent;
+        private AlignmentContext alignmentContext;
+        private readonly RenderContext renderContext;
 
         public Renderer(SpriteBatch batch, ContentContainer content, Func<IGuiElement, IStylingRule> styleProvider)
         {
             this.batch = batch;
             this.content = content;
             this.styleProvider = styleProvider;
-
+            renderContext = new RenderContext(content, batch);
             content.Textures.Add("blank", cnt => new Texture2D(batch.GraphicsDevice, 1, 1));
         }
 
         private void RenderInSafeArea(Rectangle elementBounds, Action renderAction)
         {
+            previousParent = null;
             var renderingRectangle = batch.GraphicsDevice.ScissorRectangle;
             batch.GraphicsDevice.ScissorRectangle = elementBounds;
             renderAction();
@@ -45,26 +49,25 @@ namespace GuiSystem.Rendering
         public void RenderElement(INode<IGuiElement> element, INode<IGuiElement> parent)
         {
             var elementStyle = styleProvider(element.Data);
+            alignmentContext = (previousParent == parent) ?
+                alignmentContext : CalculateAlignmentContext(element);
 
-            var alignmentContext = CalculateAlignmentContext(element);
-            var renderRectangle = elementStyle.Alignment.CalculateSafeArea(parent.Data.RenderRectangle, elementStyle, alignmentContext);
-            element.Data.RenderRectangle = renderRectangle;
+            var renderRectangle = elementStyle.Alignment.CalculateSafeArea(parent.Data.OccupiedScreenRectangle, elementStyle, alignmentContext);
+            element.Data.OccupiedScreenRectangle = renderRectangle;
 
-            var context =
-                 new RenderContext(
-                     content,
-                     batch,
-                     parent.Data.RenderRectangle,
-                     new Rectangle(0, 0, renderRectangle.Width, renderRectangle.Height)
-                );
-
-            RenderInSafeArea(renderRectangle, () => element.Data.Render(context, elementStyle));
+            renderContext.SafeArea =
+                     new Rectangle(0, 0, renderRectangle.Width, renderRectangle.Height);
+  
+            RenderInSafeArea(renderRectangle, () => element.Data.Render(renderContext, elementStyle));
+            elementStyle.Border.Render(renderContext);
+            alignmentContext.Update(element.Data);
         }
 
         private AlignmentContext CalculateAlignmentContext(INode<IGuiElement> elementNode)
         {
             var childSiblings = elementNode.DirectChildren.Nodes.Select(child => child.Data);
-            var parentStyle = styleProvider(elementNode.Data);
+            var parent = styleProvider(elementNode.Parent.Data)
+                        .GetSafeArea(elementNode.Parent.Data.OccupiedScreenRectangle);
 
             int staticWidth = 0;
             int staticHeight = 0;
@@ -72,19 +75,19 @@ namespace GuiSystem.Rendering
             foreach (var element in childSiblings)
             {
                 var style = styleProvider(element);
-                staticWidth += style.Width ?? 0;
-                staticHeight += style.Height ?? 0;
+                staticWidth += style.TotalWidth();
+                staticHeight += style.TotalHeight();
                 totalElements++;
             }
 
             return new AlignmentContext(
                 xAxis: new AlignmentContext.Entry(
-                 parentStyle.Width.Value,
-                 (parentStyle.Width.Value - staticWidth)
+                 parent.Width,
+                 (parent.Width - staticWidth)
                     / childSiblings.Count(element => styleProvider(element).Width == null)),
                 yAxis: new AlignmentContext.Entry(
-                 parentStyle.Height.Value,
-                 (parentStyle.Height.Value - totalElements)
+                parent.Height,
+                 (parent.Height - staticHeight)
                     / childSiblings.Count(element => styleProvider(element).Height == null)));
         }
 
