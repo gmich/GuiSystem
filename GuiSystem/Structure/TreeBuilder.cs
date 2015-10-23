@@ -9,13 +9,14 @@ namespace GuiSystem.Structure
 
     public class TreeBuilder
     {
-        public ITree<IGuiElement> Tree { get; } = NodeTree<IGuiElement>.NewTree();
+        public INode<IGuiElement> Tree { get; }
         public INode<IGuiElement> ActiveNode { get; private set; }
         public int Level { get; private set; } = 1;
 
         private TreeBuilder(IGuiElement root)
         {
-            ActiveNode = Tree.AddChild(root);
+            Tree = Node<IGuiElement>.CreateTree(root);
+            ActiveNode = Tree;
         }
 
         public static TreeBuilder Root(IGuiElement rootElement)
@@ -27,7 +28,7 @@ namespace GuiSystem.Structure
         {
             for (int level = 0; level < levels; level++)
             {
-                SetActiveNode(ActiveNode.Parent, "Up");
+                ActiveNode = ActiveNode.Parent;
                 Level--;
             }
             return this;
@@ -44,27 +45,8 @@ namespace GuiSystem.Structure
         {
             for (int level = 0; level < levels; level++)
             {
-                SetActiveNode(ActiveNode.Child, "Down");
+                ActiveNode = ActiveNode.DirectChildren.First();
                 Level++;
-            }
-            return this;
-        }
-
-        public TreeBuilder Previous(int nodeCount = 1)
-        {
-            for (int node = 0; node < nodeCount; node++)
-            {
-                SetActiveNode(ActiveNode.Previous, "Left");
-            }
-            return this;
-        }
-
-        public TreeBuilder Next(int nodeCount = 1)
-        {
-            for (int node = 0; node < nodeCount; node++)
-            {
-                SetActiveNode(ActiveNode.Next, "Right");
-
             }
             return this;
         }
@@ -73,18 +55,9 @@ namespace GuiSystem.Structure
         {
             foreach (var element in elements)
             {
-                ActiveNode = ActiveNode.Add(element);
+                ActiveNode.AddChild(element);
             }
             return this;
-        }
-
-        private void SetActiveNode(INode<IGuiElement> newActiveNode, string errorMessage)
-        {
-            if (newActiveNode == null)
-            {
-                throw new Exception(errorMessage);
-            }
-            ActiveNode = newActiveNode;
         }
     }
 }

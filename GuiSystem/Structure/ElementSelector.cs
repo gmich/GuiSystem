@@ -7,7 +7,7 @@ namespace GuiSystem.Structure
     public class ElementSelector
     {
         private readonly Predicate<IGuiElement> predicate;
-        public Func<ITree<IGuiElement>, IEnumerable<IGuiElement>> GetSelection { get; private set; }
+        public Func<INode<IGuiElement>, IEnumerable<IGuiElement>> GetSelection { get; private set; }
         public IPriority Priority { get; }
 
         private ElementSelector(Predicate<IGuiElement> predicate, IPriority priority)

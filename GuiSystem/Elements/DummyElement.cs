@@ -9,18 +9,8 @@ using System.Text;
 
 namespace GuiSystem.Elements
 {
-    public class DummyElement : IGuiElement
+    public class DummyElement : BaseElement
     {
-        public string Group { get; set; } = "Dummy";
 
-        public string Id { get; set; } = "Dummy";
-
-        public Rectangle OccupiedScreenRectangle { get; set; }
-
-        public void HandleInput(Input.InputManager input) { }
-
-        public void Update(double timeDelta) { }
-
-        public void Render(RenderContext context, IStylingRule style) { }
     }
 }

@@ -17,11 +17,16 @@ namespace GuiSystem
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-
+            IsMouseVisible = true;
             gui = new GuiService(graphics,
                 Content,
                 ()=>GraphicsDevice.Viewport.Bounds,
-                builder => builder.Add(new DummyElement()));
+                builder => 
+                builder
+                    .Down(new DummyElement())
+                    .Up()
+                    .Down(new DummyElement())
+                    .Add(new DummyElement(),new DummyElement()));
 
             gui.Style.Attach(
                 ElementSelector.ByID(id =>  id == "Dummy"),

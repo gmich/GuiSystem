@@ -57,7 +57,7 @@ namespace GuiSystem.Rendering
 
             renderContext.SafeArea =
                      new Rectangle(0, 0, renderRectangle.Width, renderRectangle.Height);
-  
+
             RenderInSafeArea(renderRectangle, () => element.Data.Render(renderContext, elementStyle));
             elementStyle.Border.Render(renderContext);
             alignmentContext.Update(element.Data);
@@ -65,9 +65,11 @@ namespace GuiSystem.Rendering
 
         private AlignmentContext CalculateAlignmentContext(INode<IGuiElement> elementNode)
         {
-            var childSiblings = elementNode.DirectChildren.Nodes.Select(child => child.Data);
-            var parent = styleProvider(elementNode.Parent.Data)
-                        .GetSafeArea(elementNode.Parent.Data.OccupiedScreenRectangle);
+            var childSiblings = elementNode.DirectChildren.Select(child => child.Data);
+            var elementScreenRectangle = elementNode.Parent?.Data ?? elementNode.Data;
+            var parent =
+                styleProvider(elementScreenRectangle)
+                        .GetSafeArea(elementScreenRectangle.OccupiedScreenRectangle);
 
             int staticWidth = 0;
             int staticHeight = 0;
@@ -84,11 +86,11 @@ namespace GuiSystem.Rendering
                 xAxis: new AlignmentContext.Entry(
                  parent.Width,
                  (parent.Width - staticWidth)
-                    / childSiblings.Count(element => styleProvider(element).Width == null)),
+                    / (childSiblings.Count(element => styleProvider(element).Width == null) + 1)),
                 yAxis: new AlignmentContext.Entry(
                 parent.Height,
                  (parent.Height - staticHeight)
-                    / childSiblings.Count(element => styleProvider(element).Height == null)));
+                    / ((childSiblings.Count(element => styleProvider(element).Height == null)) + 1)));
         }
 
     }

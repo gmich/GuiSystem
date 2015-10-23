@@ -13,11 +13,11 @@ namespace GuiSystem.Elements
 
         public Rectangle OccupiedScreenRectangle { get; set; }
 
-        public void HandleInput(Input.InputManager input) { }
+        public virtual void HandleInput(Input.InputManager input) { }
 
-        public void Update(double timeDelta) { }
+        public virtual void Update(double timeDelta) { }
 
-        public void Render(RenderContext context, IStylingRule style)
+        public virtual void Render(RenderContext context, IStylingRule style)
         {
             var texture = style.BackgroundImage ?? context.Content.Textures["blank"];
             style.RenderMethod.Render(context.Batch, context.SafeArea, texture, style);

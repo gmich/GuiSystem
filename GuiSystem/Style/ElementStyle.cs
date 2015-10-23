@@ -21,10 +21,10 @@ namespace GuiSystem.Style
 
         private readonly Dictionary<IGuiElement, StyleEntry> styledElements = new Dictionary<IGuiElement, StyleEntry>();
         private static List<Action<double>> stylingrules = new List<Action<double>>();
-        private readonly ITree<IGuiElement> guiTree;
+        private readonly INode<IGuiElement> guiTree;
         private readonly IStylingRule defaultRule = new StylingRule();
 
-        public StyleService(ITree<IGuiElement> guiTree)
+        public StyleService(INode<IGuiElement> guiTree)
         {
             this.guiTree = guiTree;
         }

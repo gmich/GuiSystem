@@ -17,7 +17,7 @@ namespace GuiSystem
 
     public class GuiService
     {
-        private readonly ITree<IGuiElement> guiTree;
+        private readonly INode<IGuiElement> guiTree;
         private readonly InputManager inputManager;
         private Renderer renderer;
         public StyleService Style { get; }
@@ -57,7 +57,7 @@ namespace GuiSystem
             TreeVisitor visitor)
         {
             visitor(node, parent);
-            foreach (var childNode in node.DirectChildren.Nodes)
+            foreach (var childNode in node.DirectChildren)
             {
                 RecursiveTraversingHelper(childNode, node, visitor);
             }
